@@ -55,39 +55,7 @@
       function onDeviceReady() {}
 
       const getKey = (cd) => {
-        const relayNumber = parseInt(cd.replace(/\D/g, ''), 10); // Ambil angka dari cd
-        const isTurningOn = cd.startsWith('cc'); // Jika cd diawali "cc", berarti relay OFF
-
-        if (relayNumber < 1 || relayNumber > 4) {
-          console.error('Relay number out of range:', relayNumber);
-          return;
-        }
-        relayValues[relayNumber - 1] = isTurningOn ? 1 : 0;
-        console.log(`Relay ${relayNumber} set to`, isTurningOn ? 'ON' : 'OFF');
-        const url = `${UrlApi}relay01?value1=${relayValues[0]}&value2=${relayValues[1]}&value3=${relayValues[2]}&value4=${relayValues[3]}`;
-        console.log(url, isTurningOn, relayNumber);
-
-        // Kirim permintaan ke server
-        fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Terjadi kesalahan dalam respons.');
-            }
-            return response.text();
-          })
-          .then((data) => {
-            console.log('Server response:', data);
-            CekON(cd); // Memanggil fungsi setelah menerima respons
-          })
-          .catch((error) => {
-            showAlert('Failed', 'img/alarm.gif');
-            console.error('Terjadi kesalahan:', error);
-          });
+        CekON(cd); // Memanggil fungsi setelah menerima respons
       };
 
       const CekON = (cd) => {
